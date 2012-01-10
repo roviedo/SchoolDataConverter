@@ -85,8 +85,8 @@ class XML(object):
         return data_dict_list        
         
             
-    def write_xml(self):
-        pass
+    def write_xml(self,data,filenameWOext):
+        print filenameWOext
 
 def main():
     if len(sys.argv) < 3:
@@ -110,6 +110,10 @@ def main():
         y = CSV()
         filenameWOext, fileExt = os.path.splitext(filename)
         y.write_csv(result, filenameWOext)
+    elif write_type == "xml":
+        y = XML()
+        filenameWOext, fileExt = os.path.splitext(filename)
+        y.write_xml(result, filenameWOext)
     else:
         print "No other valid format for this file"
 
