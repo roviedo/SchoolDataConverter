@@ -1,7 +1,7 @@
 import sys
 import csv
 import os
-import xml
+import xml.dom.minidom as minidom
 
 
 class CSV(object):
@@ -29,13 +29,33 @@ class XML(object):
         pass
     
     def parse_xml(self, filename):
-        print filename
-    
+        data_dict_list = []
+        doc = minidom.parse(filename)
+        node = doc.documentElement
+        schools = doc.getElementsByTagName("school")
+        for school in schools:
+            grades = school.getElementsByTagName("grade")
+        
+            for grade in grades:
+                classrooms = grade.getElementsByTagName("classroom")
+        
+                for classroom in classrooms:
+                    classroom_id = classroom.getAttribute("id")    
+                    classroom_name = classroom.getAttribute("name")
+                    teachers = classroom.getElementsByTagName("teacher")
+                    teacher1 = teachers[0]
+                    teacher2 = teachers[1]
+                    "UP TO HERE"
+                    student = classroom.getElementsByTagName("student")
+                    data_dict = {'classroom_id': classroom_id , 'classroom_name': classroom_name, 'teacher_1_id': x[2], 'teacher_1_lastname': x[3], 'teacher_1_firstname': x[4], 'teacher_2_id': x[5], 'teacher_2_last_name': x[6], 'teacher_2_first_name': x[7],'student_id':x[8],'student_last_name': x[9], 'student_first_name':x[10], 'student_grade':x[11]} 
+                    
+            
+        
+            
     def write_xml(self):
         pass
 
 def main():
-    pass
     if len(sys.argv) < 3:
         print "Please follow program running scheme is incorrect"
         exit(0)
@@ -43,11 +63,11 @@ def main():
     types = sys.argv[2].split('2')
     read_type = types[0][1:]
     write_type = types[1]
+
     if read_type == "csv":
         x = CSV()
         result = x.parse_csv(filename)
     elif read_type == "xml":
-        print read_type
         x = XML()
         result = x.parse_xml(filename)
     else:
@@ -59,5 +79,6 @@ def main():
         #y.write_csv(result, filenameWOext)
     else:
         print "No other valid format for this file"
+
 if __name__ == "__main__":
     main()
