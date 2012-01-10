@@ -1,5 +1,6 @@
 import sys
 import csv
+import os
 
 class CSV(object):
     def __init__(self):
@@ -14,8 +15,11 @@ class CSV(object):
                 data_dict_list.append(data_dict)
         return data_dict_list
     
-    def write_csv(self,data):
-        print data
+    def write_csv(self,data, filenameWOext):
+        writer = csv.writer(open(filenameWOext + '.csv', 'wb'))
+        for x in data:
+            writer.writerow([x['classroom_id'], x['classroom_name'], x['teacher_1_id'], x['teacher_1_lastname'],x['teacher_1_firstname'],x['teacher_2_id'],x['teacher_2_last_name'], x['teacher_2_first_name'], x['student_id'], x['student_last_name'] , x['student_first_name'], x['student_grade']])
+        print writer
 
 def main():
     pass
@@ -33,7 +37,8 @@ def main():
         print "Not a valid format"
     if write_type == "csv":
         y = CSV()
-        y.write_csv(result)
+        filenameWOext, fileExt = os.path.splitext(filename)
+        y.write_csv(result, filenameWOext)
     else:
         print "No other valid format for this file"
 if __name__ == "__main__":
