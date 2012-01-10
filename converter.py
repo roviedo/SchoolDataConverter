@@ -41,43 +41,48 @@ class XML(object):
         schools = doc.getElementsByTagName("school")
         for school in schools:
             grades = school.getElementsByTagName("grade")
-        
+            
             for grade in grades:
                 classrooms = grade.getElementsByTagName("classroom")
-        
+                student_grade = grade.getAttribute("id")
                 for classroom in classrooms:
                     classroom_id = classroom.getAttribute("id")    
                     classroom_name = classroom.getAttribute("name")
                     teachers = classroom.getElementsByTagName("teacher")
-                    #teacher1 = teachers[0]
-                    #teacher_1_id = teacher1.getAttribute("id")
-                    #teacher_1_lastname = teacher1.getAttribute("last_name")
-                    #teacher_1_lastname = teacher1.getAttribute("first_name")
                     
                     """This condition statement checks to see if there is either 2 teachers at most or 1 teacher at very least"""
                     if len(teachers) == 2:
                         teacher1 = teachers[0]
                         teacher_1_id = teacher1.getAttribute("id")
-                        teacher_1_lastname = teacher1.getAttribute("last_name")
-                        teacher_1_firstname = teacher1.getAttribute("first_name")
+                        teacher_1_last_name = teacher1.getAttribute("last_name")
+                        teacher_1_first_name = teacher1.getAttribute("first_name")
                         teacher2 = teachers[1]
                         teacher_2_id = teacher2.getAttribute("id")
-                        teacher_2_lastname = teacher2.getAttribute("last_name")
-                        teacher_2_firstname = teacher2.getAttribute("first_name")
+                        teacher_2_last_name = teacher2.getAttribute("last_name")
+                        teacher_2_first_name = teacher2.getAttribute("first_name")
                         students = classroom.getElementsByTagName("student")
                         for student in students:
-                            
+                            student_id = student.getAttribute("id")
+                            student_last_name = student.getAttribute("last_name")
+                            student_first_name = student.getAttribute("first_name")
+                            data_dict = {'classroom_id': classroom_id , 'classroom_name': classroom_name, 'teacher_1_id': teacher_1_id, 'teacher_1_lastname': teacher_1_last_name, 'teacher_1_firstname': teacher_1_first_name, 'teacher_2_id': teacher_2_id, 'teacher_2_last_name': teacher_2_last_name, 'teacher_2_first_name': teacher_2_first_name,'student_id':student_id,'student_last_name': student_last_name, 'student_first_name': student_first_name, 'student_grade': student_grade} 
+                            data_dict_list.append(data_dict)
                     else:
                         teacher1 = teachers[0]
                         teacher_1_id = teacher1.getAttribute("id")
-                        teacher_1_lastname = teacher1.getAttribute("last_name")
-                        teacher_1_firstname = teacher1.getAttribute("first_name")
-                    """
-                        
-                
-                    data_dict = {'classroom_id': classroom_id , 'classroom_name': classroom_name, 'teacher_1_id': x[2], 'teacher_1_lastname': x[3], 'teacher_1_firstname': x[4], 'teacher_2_id': x[5], 'teacher_2_last_name': x[6], 'teacher_2_first_name': x[7],'student_id':x[8],'student_last_name': x[9], 'student_first_name':x[10], 'student_grade':x[11]} 
-                   """ 
-            
+                        teacher_1_last_name = teacher1.getAttribute("last_name")
+                        teacher_1_first_name = teacher1.getAttribute("first_name")
+                        teacher_2_id = " "
+                        teacher_2_last_name = " "
+                        teacher_2_first_name = " "
+                        students = classroom.getElementsByTagName("student")
+                        for student in students:
+                            student_id = student.getAttribute("id")
+                            student_last_name = student.getAttribute("last_name")
+                            student_first_name = student.getAttribute("first_name")
+                            data_dict = {'classroom_id': classroom_id , 'classroom_name': classroom_name, 'teacher_1_id': teacher_1_id, 'teacher_1_lastname': teacher_1_last_name, 'teacher_1_firstname': teacher_1_first_name, 'teacher_2_id': teacher_2_id, 'teacher_2_last_name': teacher_2_last_name, 'teacher_2_first_name': teacher_2_first_name,'student_id':student_id,'student_last_name': student_last_name, 'student_first_name': student_first_name, 'student_grade': student_grade} 
+                            data_dict_list.append(data_dict)
+        return data_dict_list        
         
             
     def write_xml(self):
@@ -103,8 +108,8 @@ def main():
     
     if write_type == "csv":
         y = CSV()
-        #filenameWOext, fileExt = os.path.splitext(filename)
-        #y.write_csv(result, filenameWOext)
+        filenameWOext, fileExt = os.path.splitext(filename)
+        y.write_csv(result, filenameWOext)
     else:
         print "No other valid format for this file"
 
