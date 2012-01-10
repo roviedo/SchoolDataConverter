@@ -1,4 +1,21 @@
 import sys
+import csv
+
+class CSV(object):
+    def __init__(self):
+        pass
+
+    def parse_csv(self, filename):
+        data = csv.reader(open(filename, 'r'))
+        data_dict_list = []
+        for x in data:
+            if x:
+                data_dict = {'classroom_id': x[0] , 'classroom_name': x[1], 'teacher_1_id': x[2], 'teacher_1_lastname': x[3], 'teacher_1_firstname': x[4], 'teacher_2_id': x[5], 'teacher_2_last_name': x[6], 'teacher_2_first_name': x[7],'student_id':x[8],'student_last_name': x[9], 'student_first_name':x[10], 'student_grade':x[11]} 
+                data_dict_list.append(data_dict)
+        return data_dict_list
+    
+    def write_csv(self,data):
+        print data
 
 def main():
     pass
@@ -6,11 +23,18 @@ def main():
         print "Please follow program running scheme is incorrect"
         exit(0)
     filename = sys.argv[1]
-    print filename , "\n"
-    #x = classblah()
-    #x.classmethod(filename)
     types = sys.argv[2].split('2')
-    print "\n", type(types)
-
+    read_type = types[0][1:]
+    write_type = types[1]
+    if read_type == "csv":
+        x = CSV()
+        result = x.parse_csv(filename)
+    else:
+        print "Not a valid format"
+    if write_type == "csv":
+        y = CSV()
+        y.write_csv(result)
+    else:
+        print "No other valid format for this file"
 if __name__ == "__main__":
     main()
