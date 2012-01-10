@@ -9,6 +9,8 @@ class CSV(object):
         pass
 
     def parse_csv(self, filename):
+        """
+        """
         data = csv.reader(open(filename, 'r'))
         data_dict_list = []
         for x in data:
@@ -18,6 +20,8 @@ class CSV(object):
         return data_dict_list
     
     def write_csv(self,data, filenameWOext):
+        """
+        """
         writer = csv.writer(open(filenameWOext + '.csv', 'wb'))
         for x in data:
             writer.writerow([x['classroom_id'], x['classroom_name'], x['teacher_1_id'], x['teacher_1_lastname'],x['teacher_1_firstname'],x['teacher_2_id'],x['teacher_2_last_name'], x['teacher_2_first_name'], x['student_id'], x['student_last_name'] , x['student_first_name'], x['student_grade']])
@@ -29,6 +33,8 @@ class XML(object):
         pass
     
     def parse_xml(self, filename):
+        """
+        """
         data_dict_list = []
         doc = minidom.parse(filename)
         node = doc.documentElement
@@ -43,12 +49,34 @@ class XML(object):
                     classroom_id = classroom.getAttribute("id")    
                     classroom_name = classroom.getAttribute("name")
                     teachers = classroom.getElementsByTagName("teacher")
-                    teacher1 = teachers[0]
-                    teacher2 = teachers[1]
-                    "UP TO HERE"
-                    student = classroom.getElementsByTagName("student")
-                    data_dict = {'classroom_id': classroom_id , 'classroom_name': classroom_name, 'teacher_1_id': x[2], 'teacher_1_lastname': x[3], 'teacher_1_firstname': x[4], 'teacher_2_id': x[5], 'teacher_2_last_name': x[6], 'teacher_2_first_name': x[7],'student_id':x[8],'student_last_name': x[9], 'student_first_name':x[10], 'student_grade':x[11]} 
+                    #teacher1 = teachers[0]
+                    #teacher_1_id = teacher1.getAttribute("id")
+                    #teacher_1_lastname = teacher1.getAttribute("last_name")
+                    #teacher_1_lastname = teacher1.getAttribute("first_name")
                     
+                    """This condition statement checks to see if there is either 2 teachers at most or 1 teacher at very least"""
+                    if len(teachers) == 2:
+                        teacher1 = teachers[0]
+                        teacher_1_id = teacher1.getAttribute("id")
+                        teacher_1_lastname = teacher1.getAttribute("last_name")
+                        teacher_1_firstname = teacher1.getAttribute("first_name")
+                        teacher2 = teachers[1]
+                        teacher_2_id = teacher2.getAttribute("id")
+                        teacher_2_lastname = teacher2.getAttribute("last_name")
+                        teacher_2_firstname = teacher2.getAttribute("first_name")
+                        students = classroom.getElementsByTagName("student")
+                        for student in students:
+                            
+                    else:
+                        teacher1 = teachers[0]
+                        teacher_1_id = teacher1.getAttribute("id")
+                        teacher_1_lastname = teacher1.getAttribute("last_name")
+                        teacher_1_firstname = teacher1.getAttribute("first_name")
+                    """
+                        
+                
+                    data_dict = {'classroom_id': classroom_id , 'classroom_name': classroom_name, 'teacher_1_id': x[2], 'teacher_1_lastname': x[3], 'teacher_1_firstname': x[4], 'teacher_2_id': x[5], 'teacher_2_last_name': x[6], 'teacher_2_first_name': x[7],'student_id':x[8],'student_last_name': x[9], 'student_first_name':x[10], 'student_grade':x[11]} 
+                   """ 
             
         
             
