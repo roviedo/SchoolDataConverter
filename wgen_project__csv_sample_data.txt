@@ -14,4 +14,3 @@
 102, Mr. Smith's PhysEd Class, 10200000001, Smith, Arthur, 10200000011, Patterson, John, 10200000018, Reginald, Alexis, 1
 102, Mr. Smith's PhysEd Class, 10200000001, Smith, Arthur, 10200000011, Patterson, John, 10200000019, Gayle, Matthew, 1
 103, Brian's Homeroom, 10300000001, O'Donnell, Brian, , , , , , ,
-

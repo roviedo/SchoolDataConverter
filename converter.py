@@ -15,7 +15,21 @@ class CSV(object):
         data_dict_list = []
         for x in data:
             if x:
-                data_dict = {'classroom_id': x[0] , 'classroom_name': x[1], 'teacher_1_id': x[2], 'teacher_1_lastname': x[3], 'teacher_1_firstname': x[4], 'teacher_2_id': x[5], 'teacher_2_last_name': x[6], 'teacher_2_first_name': x[7],'student_id':x[8],'student_last_name': x[9], 'student_first_name':x[10], 'student_grade':x[11]} 
+                data_dict = {
+                                'classroom_id': x[0].strip(), 
+                                'classroom_name': x[1].strip(), 
+                                'teacher_1_id': x[2].strip(), 
+                                'teacher_1_lastname': x[3].strip(), 
+                                'teacher_1_firstname': x[4].strip(), 
+                                'teacher_2_id': x[5].strip(), 
+                                'teacher_2_last_name': x[6].strip(), 
+                                'teacher_2_first_name': x[7].strip(),
+                                'student_id':x[8].strip(),
+                                'student_last_name': x[9].strip(), 
+                                'student_first_name':x[10].strip(), 
+                                'student_grade':x[11].strip(),
+                            }
+ 
                 data_dict_list.append(data_dict)
         return data_dict_list
     
@@ -67,13 +81,37 @@ class XML(object):
                                 student_id = student.getAttribute("id")
                                 student_last_name = student.getAttribute("last_name")
                                 student_first_name = student.getAttribute("first_name")
-                                data_dict = {'classroom_id': classroom_id , 'classroom_name': classroom_name, 'teacher_1_id': teacher_1_id, 'teacher_1_lastname': teacher_1_last_name, 'teacher_1_firstname': teacher_1_first_name, 'teacher_2_id': teacher_2_id, 'teacher_2_last_name': teacher_2_last_name, 'teacher_2_first_name': teacher_2_first_name,'student_id':student_id,'student_last_name': student_last_name, 'student_first_name': student_first_name, 'student_grade': student_grade} 
+                                data_dict = {
+                                                'classroom_id': classroom_id , 
+                                                'classroom_name': classroom_name, 
+                                                'teacher_1_id': teacher_1_id, 
+                                                'teacher_1_lastname': teacher_1_last_name, 
+                                                'teacher_1_firstname': teacher_1_first_name, 
+                                                'teacher_2_id': teacher_2_id, 
+                                                'teacher_2_last_name': teacher_2_last_name, 
+                                                'teacher_2_first_name': teacher_2_first_name,
+                                                'student_id':student_id,
+                                                'student_last_name': student_last_name, 
+                                                'student_first_name': student_first_name, 
+                                                'student_grade': student_grade}, 
                                 data_dict_list.append(data_dict)
                         else:
                             student_id = ""
                             student_last_name = ""
                             student_first_name = ""
-                            data_dict = {'classroom_id': classroom_id , 'classroom_name': classroom_name, 'teacher_1_id': teacher_1_id, 'teacher_1_lastname': teacher_1_last_name, 'teacher_1_firstname': teacher_1_first_name, 'teacher_2_id': teacher_2_id, 'teacher_2_last_name': teacher_2_last_name, 'teacher_2_first_name': teacher_2_first_name,'student_id':student_id,'student_last_name': student_last_name, 'student_first_name': student_first_name, 'student_grade': student_grade} 
+                            data_dict = {
+                                            'classroom_id': classroom_id , 
+                                            'classroom_name': classroom_name, 
+                                            'teacher_1_id': teacher_1_id, 
+                                            'teacher_1_lastname': teacher_1_last_name, 
+                                            'teacher_1_firstname': teacher_1_first_name, 
+                                            'teacher_2_id': teacher_2_id, 
+                                            'teacher_2_last_name': teacher_2_last_name, 
+                                            'teacher_2_first_name': teacher_2_first_name,
+                                            'student_id':student_id,
+                                            'student_last_name': student_last_name, 
+                                            'student_first_name': student_first_name, 
+                                            'student_grade': student_grade}, 
                             data_dict_list.append(data_dict)
                     else:
                         teacher1 = teachers[0]
@@ -90,13 +128,37 @@ class XML(object):
                                 student_id = student.getAttribute("id")
                                 student_last_name = student.getAttribute("last_name")
                                 student_first_name = student.getAttribute("first_name")
-                                data_dict = {'classroom_id': classroom_id , 'classroom_name': classroom_name, 'teacher_1_id': teacher_1_id, 'teacher_1_lastname': teacher_1_last_name, 'teacher_1_firstname': teacher_1_first_name, 'teacher_2_id': teacher_2_id, 'teacher_2_last_name': teacher_2_last_name, 'teacher_2_first_name': teacher_2_first_name,'student_id':student_id,'student_last_name': student_last_name, 'student_first_name': student_first_name, 'student_grade': student_grade} 
+                                data_dict = {
+                                                'classroom_id': classroom_id , 
+                                                'classroom_name': classroom_name, 
+                                                'teacher_1_id': teacher_1_id, 
+                                                'teacher_1_lastname': teacher_1_last_name, 
+                                                'teacher_1_firstname': teacher_1_first_name, 
+                                                'teacher_2_id': teacher_2_id, 
+                                                'teacher_2_last_name': teacher_2_last_name, 
+                                                'teacher_2_first_name': teacher_2_first_name,
+                                                'student_id':student_id,
+                                                'student_last_name': student_last_name, 
+                                                'student_first_name': student_first_name, 
+                                                'student_grade': student_grade}, 
                                 data_dict_list.append(data_dict)
                         else:
                             student_id = ""
                             student_last_name = ""
                             student_first_name = ""
-                            data_dict = {'classroom_id': classroom_id , 'classroom_name': classroom_name, 'teacher_1_id': teacher_1_id, 'teacher_1_lastname': teacher_1_last_name, 'teacher_1_firstname': teacher_1_first_name, 'teacher_2_id': teacher_2_id, 'teacher_2_last_name': teacher_2_last_name, 'teacher_2_first_name': teacher_2_first_name,'student_id':student_id,'student_last_name': student_last_name, 'student_first_name': student_first_name, 'student_grade': student_grade} 
+                            data_dict = {
+                                            'classroom_id': classroom_id , 
+                                            'classroom_name': classroom_name, 
+                                            'teacher_1_id': teacher_1_id, 
+                                            'teacher_1_lastname': teacher_1_last_name, 
+                                            'teacher_1_firstname': teacher_1_first_name, 
+                                            'teacher_2_id': teacher_2_id, 
+                                            'teacher_2_last_name': teacher_2_last_name, 
+                                            'teacher_2_first_name': teacher_2_first_name,
+                                            'student_id':student_id,
+                                            'student_last_name': student_last_name, 
+                                            'student_first_name': student_first_name, 
+                                            'student_grade': student_grade} 
                             data_dict_list.append(data_dict)
         return data_dict_list        
         
@@ -200,7 +262,7 @@ def main():
     output_file = raw_input("Type the path of the output file without extension: ")
     if write_type == "csv":
         y = CSV()
-        y.write_csv(result,outputfile)
+        y.write_csv(result,output_file)
     elif write_type == "xml":
         y = XML()
         y.write_xml(result, output_file)
