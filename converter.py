@@ -2,7 +2,7 @@ import sys
 import csv
 import os
 import xml.dom.minidom as minidom
-
+from xml.dom.minidom import Document
 
 class CSV(object):
     def __init__(self):
@@ -61,10 +61,18 @@ class XML(object):
                         teacher_2_last_name = teacher2.getAttribute("last_name")
                         teacher_2_first_name = teacher2.getAttribute("first_name")
                         students = classroom.getElementsByTagName("student")
-                        for student in students:
-                            student_id = student.getAttribute("id")
-                            student_last_name = student.getAttribute("last_name")
-                            student_first_name = student.getAttribute("first_name")
+                        if students:
+
+                            for student in students:
+                                student_id = student.getAttribute("id")
+                                student_last_name = student.getAttribute("last_name")
+                                student_first_name = student.getAttribute("first_name")
+                                data_dict = {'classroom_id': classroom_id , 'classroom_name': classroom_name, 'teacher_1_id': teacher_1_id, 'teacher_1_lastname': teacher_1_last_name, 'teacher_1_firstname': teacher_1_first_name, 'teacher_2_id': teacher_2_id, 'teacher_2_last_name': teacher_2_last_name, 'teacher_2_first_name': teacher_2_first_name,'student_id':student_id,'student_last_name': student_last_name, 'student_first_name': student_first_name, 'student_grade': student_grade} 
+                                data_dict_list.append(data_dict)
+                        else:
+                            student_id = ""
+                            student_last_name = ""
+                            student_first_name = ""
                             data_dict = {'classroom_id': classroom_id , 'classroom_name': classroom_name, 'teacher_1_id': teacher_1_id, 'teacher_1_lastname': teacher_1_last_name, 'teacher_1_firstname': teacher_1_first_name, 'teacher_2_id': teacher_2_id, 'teacher_2_last_name': teacher_2_last_name, 'teacher_2_first_name': teacher_2_first_name,'student_id':student_id,'student_last_name': student_last_name, 'student_first_name': student_first_name, 'student_grade': student_grade} 
                             data_dict_list.append(data_dict)
                     else:
@@ -72,22 +80,91 @@ class XML(object):
                         teacher_1_id = teacher1.getAttribute("id")
                         teacher_1_last_name = teacher1.getAttribute("last_name")
                         teacher_1_first_name = teacher1.getAttribute("first_name")
-                        teacher_2_id = " "
-                        teacher_2_last_name = " "
-                        teacher_2_first_name = " "
+                        teacher_2_id = ""
+                        teacher_2_last_name = ""
+                        teacher_2_first_name = ""
                         students = classroom.getElementsByTagName("student")
-                        for student in students:
-                            student_id = student.getAttribute("id")
-                            student_last_name = student.getAttribute("last_name")
-                            student_first_name = student.getAttribute("first_name")
+                        if students:
+                            
+                            for student in students:
+                                student_id = student.getAttribute("id")
+                                student_last_name = student.getAttribute("last_name")
+                                student_first_name = student.getAttribute("first_name")
+                                data_dict = {'classroom_id': classroom_id , 'classroom_name': classroom_name, 'teacher_1_id': teacher_1_id, 'teacher_1_lastname': teacher_1_last_name, 'teacher_1_firstname': teacher_1_first_name, 'teacher_2_id': teacher_2_id, 'teacher_2_last_name': teacher_2_last_name, 'teacher_2_first_name': teacher_2_first_name,'student_id':student_id,'student_last_name': student_last_name, 'student_first_name': student_first_name, 'student_grade': student_grade} 
+                                data_dict_list.append(data_dict)
+                        else:
+                            student_id = ""
+                            student_last_name = ""
+                            student_first_name = ""
                             data_dict = {'classroom_id': classroom_id , 'classroom_name': classroom_name, 'teacher_1_id': teacher_1_id, 'teacher_1_lastname': teacher_1_last_name, 'teacher_1_firstname': teacher_1_first_name, 'teacher_2_id': teacher_2_id, 'teacher_2_last_name': teacher_2_last_name, 'teacher_2_first_name': teacher_2_first_name,'student_id':student_id,'student_last_name': student_last_name, 'student_first_name': student_first_name, 'student_grade': student_grade} 
                             data_dict_list.append(data_dict)
         return data_dict_list        
         
             
     def write_xml(self,data,filenameWOext):
-        print filenameWOext
+        doc = Document()
+        school = doc.createElement("school")
+        school.setAttribute("id" , "100")
+        school.setAttribute("name" , "WGen School")
+        school.setAttribute("xmlns" , "http://www.wirelessgeneration.com/wgen.xsd")
+        doc.appendChild(school)
+        #school = doc.getElementsByTagName("school")
+        for data_dict in data:
+            current_grade = None
+            current_classroom_id = None
+            current_teacher_id = None
+            current_teacher2_id = None
+            grades = school.getElementsByTagName("grade")
+            if grades:
+                for grade in grades:
+                    if grade.getAttribute("id") == data_dict['student_grade']:
+                        current_grade = grade
+            if not current_grade:
+                current_grade = doc.createElement("grade")
+                current_grade.setAttribute("id", data_dict['student_grade'])
+                school.appendChild(current_grade)
+                
+            #print data_dict['classroom_id']
+            classrooms = current_grade.getElementsByTagName("classroom")
+            if classrooms:
+                for classroom in classrooms:
+                    if classroom.getAttribute("id") == data_dict['classroom_id']:
+                        current_classroom_id = classroom
+            if not current_classroom_id:
+                current_classroom_id = doc.createElement("classroom")
+                current_classroom_id.setAttribute("id", data_dict['classroom_id'])
+                current_classroom_id.setAttribute("name" , data_dict['classroom_name'])                           
+                current_grade.appendChild(current_classroom_id)
+                
+            teachers = current_classroom_id.getElementsByTagName("teacher")
+            if teachers:
+                for teacher in teachers:
+                    if teacher.getAttribute("id") == data_dict['teacher_1_id']:
+                        current_teacher_id = teacher
+            if not current_teacher_id:
+                current_teacher_id = doc.createElement("teacher")
+                current_teacher_id.setAttribute("id", data_dict['teacher_1_id'])
+                current_teacher_id.setAttribute("first_name", data_dict['teacher_1_firstname'])
+                current_teacher_id.setAttribute("last_name", data_dict['teacher_1_lastname'])
+                current_classroom_id.appendChild(current_teacher_id)
 
+            """Checking to see if there is a second teacher"""
+            if data_dict['teacher_2_id']:
+                teachers = current_classroom_id.getElementsByTagName("teacher")
+                if teachers:
+                    for teacher in teachers:
+                        if teacher.getAttribute("id") == data_dict['teacher_2_id']:
+                            current_teacher2_id = teacher
+                if not current_teacher2_id:
+                    current_teacher2_id = doc.createElement("teacher")
+                    current_teacher2_id.setAttribute("id", data_dict['teacher_2_id'])
+                    current_teacher2_id.setAttribute("first_name", data_dict['teacher_2_first_name'])
+                    current_teacher2_id.setAttribute("last_name", data_dict['teacher_2_last_name'])
+                    current_classroom_id.appendChild(current_teacher2_id)
+
+        print doc.toprettyxml(indent="  ")
+        #ext.PrettyPrint(doc, open(filenameWOext + ".xml" , "w"))
+        
 def main():
     if len(sys.argv) < 3:
         print "Please follow program running scheme is incorrect"
