@@ -114,6 +114,7 @@ class XML(object):
             current_classroom_id = None
             current_teacher_id = None
             current_teacher2_id = None
+            current_student_id = None
             grades = school.getElementsByTagName("grade")
             if grades:
                 for grade in grades:
@@ -161,10 +162,24 @@ class XML(object):
                     current_teacher2_id.setAttribute("first_name", data_dict['teacher_2_first_name'])
                     current_teacher2_id.setAttribute("last_name", data_dict['teacher_2_last_name'])
                     current_classroom_id.appendChild(current_teacher2_id)
+            
+            if data_dict['student_id']:
+                students = current_classroom_id.getElementsByTagName("student")
+                if students:
+                    for student in students:
+                        if student.getAttribute("id") == data_dict['student_id']:
+                            current_student_id = student
+                if not current_student_id:
+                    current_student_id = doc.createElement("student")
+                    current_student_id.setAttribute("id", data_dict['student_id'])
+                    current_student_id.setAttribute("first_name", data_dict['student_first_name']) 
+                    current_student_id.setAttribute("last_name", data_dict['student_last_name'])
+                    current_classroom_id.appendChild(current_student_id)
+                
+        out_file = open(filenameWOext + ".xml" , "w")
+        out_file.write(doc.toprettyxml(indent="  "))
+        out_file.close()
 
-        print doc.toprettyxml(indent="  ")
-        #ext.PrettyPrint(doc, open(filenameWOext + ".xml" , "w"))
-        
 def main():
     if len(sys.argv) < 3:
         print "Please follow program running scheme is incorrect"
@@ -182,15 +197,13 @@ def main():
         result = x.parse_xml(filename)
     else:
         print "Not a valid format"
-    
+    output_file = raw_input("Type the path of the output file without extension: ")
     if write_type == "csv":
         y = CSV()
-        filenameWOext, fileExt = os.path.splitext(filename)
-        y.write_csv(result, filenameWOext)
+        y.write_csv(result,outputfile)
     elif write_type == "xml":
         y = XML()
-        filenameWOext, fileExt = os.path.splitext(filename)
-        y.write_xml(result, filenameWOext)
+        y.write_xml(result, output_file)
     else:
         print "No other valid format for this file"
 
