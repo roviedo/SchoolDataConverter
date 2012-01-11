@@ -1,0 +1,41 @@
+Created: Raul Oviedo
+Name: School Data Converter
+
+Description:
+	This project is a command line program that accepts student enrollment data in one format, and outputs the data in a different format.
+	This project only handles CSV and XML formats, but other formats can be plugged with minimum change
+	The program takes file names as arguments, and is able to go both directions with both formats.
+
+Files:
+	converter.py	                     --this file contains the main program and the CSV class for parsing the csv input and writing a csv output 
+			                       and the XML class for parsing the xml input and writing a xml output.
+
+	wgen_project__xml_schema.xsd         --this file contains the xml schema expected
+
+	wgen_project__csv_format.txt         --this file contains the csv schema expected
+
+	wgen_project__csv_sample_data.txt    --this file contains the sample csv data
+	
+	wgen_project__xml_sample_data.xml    --this file contains the sample xml data
+
+Running Instructions:
+	
+	To run the program from command line we type: python followed by converter.py which is our program then the sample data file name and then 
+	from what format to what format in this fashion if we want to convert from xml to csv we type "-xml2csv" or for example we want to go from
+	csv to xml then we type "-csv2xml". (Note: csv filename extensions can be txt)
+ 
+	bash-3.2$ python converter.py <name_of_sample_data_file> -<input_extension2output_extension> , then press <enter>
+	e.g. bash-3.2$ python converter.py wgen_project__csv_sample_data.txt -csv2xml , then press <enter>
+	
+	Then you will be prompted to enter the path of output file name without the extension so you can either type the filename and it will be saved in
+	the project directory.
+	
+	e.g.: 
+	     bash-3.2$ python converter.py wgen_project__xml_sample_data.xml -xml2xml
+	     Type the path of the output file without extension: xml2xml
+	
+	     output file in project directory is , xml2xml.xml
+	
+	
+
+	
