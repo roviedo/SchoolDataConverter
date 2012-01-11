@@ -10,36 +10,55 @@ class CSV(object):
 
     def parse_csv(self, filename):
         """
+        This function takes in as a parameter the filename which it opens with
+        the csv reader and parses the csv data that is in the file row by row 
+        and creates a dicitionary (data_dict) and returns a list of dictionaries (data_dict_list)
         """
         data = csv.reader(open(filename, 'r'))
         data_dict_list = []
-        for x in data:
-            if x:
+        for row in data:
+            if row:
                 data_dict = {
-                                'classroom_id': x[0].strip(), 
-                                'classroom_name': x[1].strip(), 
-                                'teacher_1_id': x[2].strip(), 
-                                'teacher_1_lastname': x[3].strip(), 
-                                'teacher_1_firstname': x[4].strip(), 
-                                'teacher_2_id': x[5].strip(), 
-                                'teacher_2_last_name': x[6].strip(), 
-                                'teacher_2_first_name': x[7].strip(),
-                                'student_id':x[8].strip(),
-                                'student_last_name': x[9].strip(), 
-                                'student_first_name':x[10].strip(), 
-                                'student_grade':x[11].strip(),
+                                'classroom_id': row[0].strip(), 
+                                'classroom_name': row[1].strip(), 
+                                'teacher_1_id': row[2].strip(), 
+                                'teacher_1_lastname': row[3].strip(), 
+                                'teacher_1_firstname': row[4].strip(), 
+                                'teacher_2_id': row[5].strip(), 
+                                'teacher_2_last_name': row[6].strip(), 
+                                'teacher_2_first_name': row[7].strip(),
+                                'student_id':row[8].strip(),
+                                'student_last_name': row[9].strip(), 
+                                'student_first_name':row[10].strip(), 
+                                'student_grade':row[11].strip(),
                             }
  
                 data_dict_list.append(data_dict)
         return data_dict_list
     
-    def write_csv(self,data, filenameWOext):
+    def write_csv(self,data_dict_list, output_file):
         """
+        This function takes in as parameters the list of dictionaries(data_dict_list) 
+        and the file name we want to write to without the extension where then a file 
+        is opened for writing the data to be written to in the csv schema, then we 
+        write each row for the csv file using each dictionary from the list of dicts.
         """
-        writer = csv.writer(open(filenameWOext + '.csv', 'wb'))
-        for x in data:
-            writer.writerow([x['classroom_id'], x['classroom_name'], x['teacher_1_id'], x['teacher_1_lastname'],x['teacher_1_firstname'],x['teacher_2_id'],x['teacher_2_last_name'], x['teacher_2_first_name'], x['student_id'], x['student_last_name'] , x['student_first_name'], x['student_grade']])
-        print writer
+        writer = csv.writer(open(output_file + '.csv', 'wb'))
+        for data_dict in data_dict_list:
+            writer.writerow([
+                                data_dict['classroom_id'], 
+                                data_dict['classroom_name'], 
+                                data_dict['teacher_1_id'], 
+                                data_dict['teacher_1_lastname'],
+                                data_dict['teacher_1_firstname'],
+                                data_dict['teacher_2_id'],
+                                data_dict['teacher_2_last_name'], 
+                                data_dict['teacher_2_first_name'], 
+                                data_dict['student_id'], 
+                                data_dict['student_last_name'] , 
+                                data_dict['student_first_name'], 
+                                data_dict['student_grade']
+                           ])
 
 
 class XML(object):
@@ -48,6 +67,11 @@ class XML(object):
     
     def parse_xml(self, filename):
         """
+        This function takes as parameter the filename and the xml.dom.mindiom module is
+        used to parse the xml file the xml is traversed recursively until the lowest level
+        is reached of students where then the dictionary is created and it is appended to
+        the list of dictionaries once finished the list of dicts (data_dict_list) is 
+        returned
         """
         data_dict_list = []
         doc = minidom.parse(filename)
@@ -81,7 +105,7 @@ class XML(object):
                                 student_id = student.getAttribute("id")
                                 student_last_name = student.getAttribute("last_name")
                                 student_first_name = student.getAttribute("first_name")
-                                data_dict = {
+                                data_dict =     {
                                                 'classroom_id': classroom_id , 
                                                 'classroom_name': classroom_name, 
                                                 'teacher_1_id': teacher_1_id, 
@@ -93,13 +117,14 @@ class XML(object):
                                                 'student_id':student_id,
                                                 'student_last_name': student_last_name, 
                                                 'student_first_name': student_first_name, 
-                                                'student_grade': student_grade}, 
+                                                'student_grade': student_grade,
+                                                } 
                                 data_dict_list.append(data_dict)
                         else:
                             student_id = ""
                             student_last_name = ""
                             student_first_name = ""
-                            data_dict = {
+                            data_dict =     {
                                             'classroom_id': classroom_id , 
                                             'classroom_name': classroom_name, 
                                             'teacher_1_id': teacher_1_id, 
@@ -111,7 +136,8 @@ class XML(object):
                                             'student_id':student_id,
                                             'student_last_name': student_last_name, 
                                             'student_first_name': student_first_name, 
-                                            'student_grade': student_grade}, 
+                                            'student_grade': student_grade,
+                                            } 
                             data_dict_list.append(data_dict)
                     else:
                         teacher1 = teachers[0]
@@ -128,7 +154,7 @@ class XML(object):
                                 student_id = student.getAttribute("id")
                                 student_last_name = student.getAttribute("last_name")
                                 student_first_name = student.getAttribute("first_name")
-                                data_dict = {
+                                data_dict =     {
                                                 'classroom_id': classroom_id , 
                                                 'classroom_name': classroom_name, 
                                                 'teacher_1_id': teacher_1_id, 
@@ -140,13 +166,14 @@ class XML(object):
                                                 'student_id':student_id,
                                                 'student_last_name': student_last_name, 
                                                 'student_first_name': student_first_name, 
-                                                'student_grade': student_grade}, 
+                                                'student_grade': student_grade,
+                                                } 
                                 data_dict_list.append(data_dict)
                         else:
                             student_id = ""
                             student_last_name = ""
                             student_first_name = ""
-                            data_dict = {
+                            data_dict =     {
                                             'classroom_id': classroom_id , 
                                             'classroom_name': classroom_name, 
                                             'teacher_1_id': teacher_1_id, 
@@ -158,20 +185,30 @@ class XML(object):
                                             'student_id':student_id,
                                             'student_last_name': student_last_name, 
                                             'student_first_name': student_first_name, 
-                                            'student_grade': student_grade} 
+                                            'student_grade': student_grade
+                                            } 
                             data_dict_list.append(data_dict)
         return data_dict_list        
         
             
-    def write_xml(self,data,filenameWOext):
+    def write_xml(self,data_dict_list,output_file):
+        """
+        This function takes in as parameter the list of dictionaries(data_dict_list 
+        and the output file name without the extension, first we set the id, name
+        and xmlns of the school and then we traverse the list of dicts (data_dict_list)
+        dictionary by dictionary and create the elements and attributes of the xml 
+        we check if the element tag was created, otherwise we created and set the 
+        set the attribute to the element and we do this for every element of the xml,
+        and finally we write our doc to a output file (out_file) using the name passed
+        in (output_file) plus the extension 'xml'.
+        """
         doc = Document()
         school = doc.createElement("school")
         school.setAttribute("id" , "100")
         school.setAttribute("name" , "WGen School")
         school.setAttribute("xmlns" , "http://www.wirelessgeneration.com/wgen.xsd")
         doc.appendChild(school)
-        #school = doc.getElementsByTagName("school")
-        for data_dict in data:
+        for data_dict in data_dict_list:
             current_grade = None
             current_classroom_id = None
             current_teacher_id = None
@@ -187,7 +224,6 @@ class XML(object):
                 current_grade.setAttribute("id", data_dict['student_grade'])
                 school.appendChild(current_grade)
                 
-            #print data_dict['classroom_id']
             classrooms = current_grade.getElementsByTagName("classroom")
             if classrooms:
                 for classroom in classrooms:
@@ -238,9 +274,10 @@ class XML(object):
                     current_student_id.setAttribute("last_name", data_dict['student_last_name'])
                     current_classroom_id.appendChild(current_student_id)
                 
-        out_file = open(filenameWOext + ".xml" , "w")
+        out_file = open(output_file + ".xml" , "w")
         out_file.write(doc.toprettyxml(indent="  "))
         out_file.close()
+
 
 def main():
     if len(sys.argv) < 3:
@@ -251,15 +288,18 @@ def main():
     read_type = types[0][1:]
     write_type = types[1]
 
-    if read_type == "csv":
+    if read_type == "csv" and (filename[-3:] == "csv" or filename[-3:] == "txt"):
         x = CSV()
         result = x.parse_csv(filename)
-    elif read_type == "xml":
+    elif read_type == "xml" and filename[-3:] == "xml":
         x = XML()
         result = x.parse_xml(filename)
     else:
-        print "Not a valid format"
+        print "Not a valid format, try again, (input formats have to match)"
+        exit(0)
+        
     output_file = raw_input("Type the path of the output file without extension: ")
+    
     if write_type == "csv":
         y = CSV()
         y.write_csv(result,output_file)
@@ -267,7 +307,7 @@ def main():
         y = XML()
         y.write_xml(result, output_file)
     else:
-        print "No other valid format for this file"
+        print "No other valid output format for this file at the moment only csv or xml"
 
 if __name__ == "__main__":
     main()
